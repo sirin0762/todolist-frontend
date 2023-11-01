@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import DashBoard from "../pages/DashBoard.vue";
 
 const routes = [
-    { path: '/', component: DashBoard},
+    { path: '/api/todos', component: DashBoard},
 ]
 
 const router = createRouter({
