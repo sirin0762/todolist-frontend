@@ -62,7 +62,7 @@
 
 <script setup>
 import {computed} from "vue";
-import {useDrawerStore} from "../stores/drawer.js";
+import {useDrawerStore} from "../../stores/drawer.js";
 
 const drawerStore = useDrawerStore();
 const drawer = computed(() => drawerStore.drawer);

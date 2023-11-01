@@ -23,7 +23,7 @@
 
 <script setup>
 import {useTodoListStore} from "../stores/todoList.js";
-import Todo from "../components/Todo.vue";
+import Todo from "../components/todolist/Todo.vue";
 import draggable from "vuedraggable";
 import {capitalize, computed, onMounted} from "vue";
 import axios from "axios";

@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import {useDrawerStore} from "../stores/drawer.js";
+import {useDrawerStore} from "../../stores/drawer.js";
 
 const drawerStore = useDrawerStore();
 const toggleDrawer = () => {
