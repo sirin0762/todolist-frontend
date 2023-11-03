@@ -1,19 +1,20 @@
 <template>
   <div class="row">
     <div v-for="(task, i) in tasks" :key="i" class="col-4">
-      <div class="text-h5 text-weight-bold q-ma-xl text-lowercase text-capitalize">
+      <div class="text-h5 text-weight-bold q-ma-xl text-lowercase text-capitalize row items-center">
         <font-awesome-icon v-if="i === 0" icon="fa-d fa-cloud" style="color: #61b3e5" ></font-awesome-icon>
         <font-awesome-icon v-else-if="i === 1" icon="fa-solid fa-sun" style="color: #ff0000;" ></font-awesome-icon>
         <font-awesome-icon v-else-if="i === 2" icon="fa-solid fa-moon" style="color: #ffd43b;" ></font-awesome-icon>
-        {{capitalize(task.todoTimeOfDay.toLowerCase())}}
+        <div id="todoTimeOfDay" class="q-ml-sm">{{capitalize(task.todoTimeOfDay.toLowerCase())}}</div>
       </div>
       <draggable
           :list="task.todoResponses"
           group="people"
           :animation="200"
           item-key="id"
+          @change="moveTimeOfDay"
       >
-        <template #item="{element}" class="">
+        <template #item="{element}">
           <Todo :todo="element"></Todo>
         </template>
       </draggable>
@@ -25,7 +26,7 @@
 import {useTodoListStore} from "../stores/todoList.js";
 import Todo from "../components/todolist/Todo.vue";
 import draggable from "vuedraggable";
-import {capitalize, computed, onMounted} from "vue";
+import {capitalize, computed, onMounted, watch} from "vue";
 import axios from "axios";
 import {format} from "quasar";
 
@@ -42,8 +43,24 @@ onMounted(() => {
       })
       .then((res) => {
         todoListStore.state.todoList = res.data;
-        console.log(res.data);
       })
+});
 
-})
+const moveTimeOfDay = (e) => {
+  if (!e.added) return;
+
+  const targetElement = e.added.element;
+  for (let i =  0; i < state.todoList.length; i++) {
+    let timeOfDay = state.todoList[i].todoTimeOfDay;
+    for (let j = 0; j < state.todoList[i].todoResponses.length; j++) {
+      if (state.todoList[i].todoResponses[j].id === targetElement.id) {
+        targetElement.todoTimeOfDay = timeOfDay;
+      }
+    }
+  }
+
+  const url = "http://localhost:8080/api/todos/" + targetElement.id;
+  const response = axios.put(url, targetElement);
+  console.log("# 응답객체: ", response.data);
+}
 </script>

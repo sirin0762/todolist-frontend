@@ -42,8 +42,6 @@ const todo = ref(props.todo);
 const editPopup = ref(false);
 const dateRange = ref({from: todo.value.startDate, to: todo.value.endDate});
 
-console.log(todo.value);
-
 const shortenText = (text, maxLength) => {
   if (text.length > maxLength) {
     return text.slice(0, maxLength) + "...";
@@ -56,9 +54,12 @@ watch(dateRange, (newOne, oldOne) => {
   todo.endDate = newOne.to;
 });
 
+watch(todo, (newOne, oldOne) => {
+  console.log(newOne);
+})
+
 const updateTodo = (e) => {
   const url = "http://localhost:8080/api/todos/" + todo.value.id;
-  console.log(todo.value);
   const response = axios.put(url, todo.value);
   console.log("# 응답객체: ", response.data);
 }
