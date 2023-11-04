@@ -7,7 +7,7 @@
       <q-card-section class="q-pt-sm">
         <div>{{ shortenText(todo.desc, 50) }}</div>
       </q-card-section>
-      <q-checkbox class="q-pl-xs" size="xs" label="Done" v-model="todo.done"></q-checkbox>
+      <q-checkbox class="q-pl-xs" size="xs" label="Done" v-model="todo.done" @click="updateTodo"></q-checkbox>
     </q-card>
 
     <q-dialog v-model="editPopup" @before-hide="updateTodo">

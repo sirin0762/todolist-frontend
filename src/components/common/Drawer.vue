@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed">
+  <div class="fixed" style="{width: 256px; height: 100vh;}">
     <q-drawer
         v-model="drawer"
         show-if-above
