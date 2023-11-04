@@ -22,7 +22,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faSun, faCloud, faMoon } from '@fortawesome/free-solid-svg-icons'
+import { faSun, faCloud, faMoon, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 const app = createApp(App);
 
@@ -30,6 +30,7 @@ const app = createApp(App);
 library.add(faSun);
 library.add(faCloud);
 library.add(faMoon);
+library.add(faPlus);
 app.component('font-awesome-icon', FontAwesomeIcon);
 
 // router

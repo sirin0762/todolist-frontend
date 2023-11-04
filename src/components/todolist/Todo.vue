@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-card class="q-mt-md q-ml-xl q-mr-xl q-pt-md q-pb-md" @click="editPopup = true">
+    <q-card class="q-mt-md q-pt-md q-pb-md" @click="editPopup = true">
       <q-card-section class="q-pb-sm q-pt-sm">
         <div class="text-black text-weight-bold">{{ todo.title }}</div>
       </q-card-section>
