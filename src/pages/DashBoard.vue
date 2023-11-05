@@ -8,7 +8,7 @@
           <font-awesome-icon v-else-if="i === 2" icon="fa-solid fa-moon" style="color: #ffd43b;"></font-awesome-icon>
           <div id="todoTimeOfDay" class="q-ml-sm">{{ capitalize(task.todoTimeOfDay.toLowerCase()) }}</div>
         </div>
-      <NewCardButton/>
+      <NewCardButton :newTodoTimeOfDay="task.todoTimeOfDay"/>
       </div>
       <draggable
           :list="task.todoResponses"
@@ -61,7 +61,6 @@ const moveTimeOfDay = (e) => {
       }
     }
   }
-
   const url = "http://localhost:8080/api/todos/" + targetElement.id;
   const response = axios.put(url, targetElement);
   console.log("# 응답객체: ", response.data);

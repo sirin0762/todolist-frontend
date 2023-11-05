@@ -18,7 +18,7 @@
           </q-card-section>
           <q-btn icon="event" round color="primary" size="sm" style="{width: 24px; height: 24px;}" class="q-mr-sm">
             <q-popup-proxy anchor="top right" transition-show="scale" transition-hide="scale">
-              <q-date v-model="dateRange" range mask="YYYY-MM-DD">
+              <q-date v-model="dateRange" range mask="YYYY-MM-DD" @range-start="dateRangeStart" @range-end="dateRangeEnd">
               </q-date>
             </q-popup-proxy>
           </q-btn>
@@ -33,12 +33,22 @@
 </template>
 
 <script setup>
-import {computed, ref, watch} from "vue";
+import {ref} from "vue";
 import axios from "axios";
+import {date} from "quasar";
 
 const props = defineProps(['todo']);
 
-const todo = ref(props.todo);
+const todo = ref({
+  id: props.todo.id,
+  title: props.todo.title,
+  desc: props.todo.desc,
+  todoTimeOfDay: props.todo.todoTimeOfDay,
+  done: props.todo.done,
+  startDate: props.todo.startDate,
+  endDate: props.todo.endDate
+});
+
 const editPopup = ref(false);
 const dateRange = ref({from: todo.value.startDate, to: todo.value.endDate});
 
@@ -49,18 +59,25 @@ const shortenText = (text, maxLength) => {
   return text;
 }
 
-watch(dateRange, (newOne, oldOne) => {
-  todo.startDate = newOne.from;
-  todo.endDate = newOne.to;
-});
-
-watch(todo, (newOne, oldOne) => {
-  console.log(newOne);
-})
-
-const updateTodo = (e) => {
+const updateTodo = async (e) => {
+  console.log(dateRange.value);
+  await setDateRangeInTodo();
+  console.log(todo.value);
   const url = "http://localhost:8080/api/todos/" + todo.value.id;
   const response = axios.put(url, todo.value);
   console.log("# 응답객체: ", response.data);
+}
+
+const setDateRangeInTodo = () => {
+  todo.value.startDate = dateRange.value.from;
+  todo.value.endDate = dateRange.value.to;
+}
+
+const dateRangeStart = (from) => {
+  todo.value.startDate = date.formatDate(from, 'YYYY-MM-DD');
+}
+
+const dateRangeEnd = (dateObj) => {
+  todo.value.endDate = date.formatDate(dateObj.to, 'YYYY-MM-DD');
 }
 </script>
