@@ -8,6 +8,21 @@
         <div>{{ shortenText(todo.desc, 50) }}</div>
       </q-card-section>
       <q-checkbox class="q-pl-xs" size="xs" label="Done" v-model="todo.done" @click="updateTodo"></q-checkbox>
+      <q-menu
+          touch-position
+          context-menu
+      >
+
+        <q-list dense style="min-width: 100px">
+          <q-item clickable v-close-popup @click="duplicateTodo">
+            <q-item-section>Duplicate</q-item-section>
+          </q-item>
+          <q-item clickable v-close-popup @click="deleteTodo">
+            <q-item-section>Delete</q-item-section>
+          </q-item>
+        </q-list>
+
+      </q-menu>
     </q-card>
 
     <q-dialog v-model="editPopup" @before-hide="updateTodo">
@@ -38,6 +53,7 @@ import axios from "axios";
 import {date} from "quasar";
 
 const props = defineProps(['todo']);
+const emit = defineEmits(['delete-todo']);
 
 const todo = ref({
   id: props.todo.id,
@@ -63,6 +79,10 @@ const updateTodo = async (e) => {
   const url = "http://localhost:8080/api/todos/" + todo.value.id;
   const response = axios.put(url, todo.value);
   console.log("# 응답객체: ", response.data);
+}
+
+const deleteTodo = (e) => {
+  emit('delete-todo', todo.value.id);
 }
 
 const dateRangeStart = (from) => {

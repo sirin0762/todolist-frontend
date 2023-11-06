@@ -18,7 +18,7 @@
           @change="moveTimeOfDay"
       >
         <template #item="{element}">
-          <Todo :todo="element"></Todo>
+          <Todo :todo="element" @delete-todo="deleteTodo"></Todo>
         </template>
       </draggable>
     </div>
@@ -65,6 +65,20 @@ const moveTimeOfDay = (e) => {
   }
   const url = "http://localhost:8080/api/todos/" + targetElement.id;
   const response = axios.put(url, targetElement);
+  console.log("# 응답객체: ", response.data);
+}
+
+const deleteTodo = (targetId) => {
+  for (let i = 0; i < state.todoList.length; i++) {
+    for (let j = 0; j < state.todoList[i].todoResponses.length; j++) {
+      if (state.todoList[i].todoResponses[j].id === targetId) {
+        state.todoList[i].todoResponses.splice(j, 1);
+      }
+    }
+  }
+
+  const url = "http://localhost:8080/api/todos/" + targetId;
+  const response = axios.delete(url);
   console.log("# 응답객체: ", response.data);
 }
 </script>
