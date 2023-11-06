@@ -61,9 +61,9 @@ const createTodo = async (e) => {
   if (newTodo.value.startDate === "") newTodo.value.startDate = currentRoute.query.date;
   newTodo.value.todoTimeOfDay = props.newTodoTimeOfDay;
 
-  console.log(newTodo.value);
   const url = "http://localhost:8080/api/todos"
   const response = await axios.post(url, newTodo.value);
+  newTodo.value.id = response.data;
 
   axios.get("http://localhost:8080/api/todos", {
         params: {

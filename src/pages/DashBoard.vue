@@ -18,7 +18,7 @@
           @change="moveTimeOfDay"
       >
         <template #item="{element}">
-          <Todo :todo="element" @delete-todo="deleteTodo"></Todo>
+          <Todo :todo="element" @delete-todo="deleteTodo" @duplicate-todo="duplicateTodo"></Todo>
         </template>
       </draggable>
     </div>
@@ -80,5 +80,22 @@ const deleteTodo = (targetId) => {
   const url = "http://localhost:8080/api/todos/" + targetId;
   const response = axios.delete(url);
   console.log("# 응답객체: ", response.data);
+}
+
+const duplicateTodo = async (todo) => {
+  const duplicatedTodo = {...todo};
+
+  console.log(duplicatedTodo);
+
+  const url = "http://localhost:8080/api/todos"
+  const response = await axios.post(url, duplicatedTodo);
+  duplicatedTodo.id = response.data;
+
+  for (let i = 0; i < state.todoList.length; i++) {
+    let timeOfDay = state.todoList[i].todoTimeOfDay;
+    if (timeOfDay === duplicatedTodo.todoTimeOfDay) {
+      state.todoList[i].todoResponses.push(duplicatedTodo);
+    }
+  }
 }
 </script>

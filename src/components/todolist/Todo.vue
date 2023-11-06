@@ -12,7 +12,6 @@
           touch-position
           context-menu
       >
-
         <q-list dense style="min-width: 100px">
           <q-item clickable v-close-popup @click="duplicateTodo">
             <q-item-section>Duplicate</q-item-section>
@@ -21,7 +20,6 @@
             <q-item-section>Delete</q-item-section>
           </q-item>
         </q-list>
-
       </q-menu>
     </q-card>
 
@@ -53,7 +51,7 @@ import axios from "axios";
 import {date} from "quasar";
 
 const props = defineProps(['todo']);
-const emit = defineEmits(['delete-todo']);
+const emit = defineEmits(['delete-todo', 'duplicate-todo']);
 
 const todo = ref({
   id: props.todo.id,
@@ -81,8 +79,12 @@ const updateTodo = async (e) => {
   console.log("# 응답객체: ", response.data);
 }
 
-const deleteTodo = (e) => {
+const deleteTodo = () => {
   emit('delete-todo', todo.value.id);
+}
+
+const duplicateTodo = () => {
+  emit('duplicate-todo', todo.value);
 }
 
 const dateRangeStart = (from) => {
