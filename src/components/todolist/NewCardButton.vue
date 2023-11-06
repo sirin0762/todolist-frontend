@@ -14,7 +14,8 @@
           </q-card-section>
           <q-btn icon="event" round color="primary" size="sm" style="{width: 24px; height: 24px;}" class="q-mr-sm">
             <q-popup-proxy anchor="top right" transition-show="scale" transition-hide="scale">
-              <q-date v-model="dateRange" range mask="YYYY-MM-DD">
+              <q-date v-model="dateRange" range mask="YYYY-MM-DD" @range-start="dateRangeStart"
+                      @range-end="dateRangeEnd">
               </q-date>
             </q-popup-proxy>
           </q-btn>
@@ -24,7 +25,7 @@
         </q-card-section>
         <div class="row justify-between items-center">
           <q-checkbox class="q-pl-xs" size="xs" label="Done" v-model="newTodo.done"></q-checkbox>
-          <q-btn label="저장" size="12px" color="primary" @click="createTodo"></q-btn>
+          <q-btn class="q-mr-sm" label="저장" size="12px" color="primary" @click="createTodo" v-close-popup></q-btn>
         </div>
       </q-card>
     </q-dialog>
@@ -36,6 +37,7 @@ import {ref, watch} from "vue";
 import {useTodoListStore} from "../../stores/todoList.js";
 import axios from "axios";
 import {useRoute} from "vue-router";
+import {date} from "quasar";
 
 const currentRoute = useRoute();
 const props = defineProps(['newTodoTimeOfDay']);
@@ -44,7 +46,7 @@ const newCardEditPopup = ref(false);
 const {state} = todoListStore;
 
 const newTodo = ref({
-  id : "",
+  id: "",
   title: "",
   desc: "",
   todoTimeOfDay: "",
@@ -56,28 +58,34 @@ const dateRange = ref({from: newTodo.value.startDate, to: newTodo.value.endDate}
 
 const createTodo = async (e) => {
   if (newTodo.value.title === "") return;
-  await setDateRangeInTodo();
   if (newTodo.value.startDate === "") newTodo.value.startDate = currentRoute.query.date;
   newTodo.value.todoTimeOfDay = props.newTodoTimeOfDay;
 
   console.log(newTodo.value);
-
   const url = "http://localhost:8080/api/todos"
-  const response = axios.post(url, newTodo.value);
+  const response = await axios.post(url, newTodo.value);
 
-  newTodo.value.id = response.data;
-
-  for (let i = 0; i < state.todoList.length; i++) {
-    console.log(state.todoList[i]);
-    if (state.todoList[i].todoTimeOfDay === newTodo.value.todoTimeOfDay) {
-      state.todoList.todoResponses.push(newTodo);
-    }
-  }
-
+  axios.get("http://localhost:8080/api/todos", {
+        params: {
+          date: currentRoute.query.date
+        }})
+      .then((res) => {
+        todoListStore.state.todoList = res.data;
+      })
 }
 
-const setDateRangeInTodo = () => {
-  newTodo.value.startDate = dateRange.value.from;
-  newTodo.value.endDate = dateRange.value.to;
+const dateRangeStart = (from) => {
+  const fromDate = new Date(from.year, from.month - 1, from.day);
+  newTodo.value.startDate = date.formatDate(fromDate, 'YYYY-MM-DD');
+  console.log(from)
+  console.log(date.formatDate(fromDate, 'YYYY-MM-DD'))
+}
+
+const dateRangeEnd = (dateObj) => {
+  const toDate = new Date(dateObj.to.year, dateObj.to.month - 1, dateObj.to.day);
+  newTodo.value.endDate = date.formatDate(toDate, 'YYYY-MM-DD');
+  console.log(dateObj)
+  console.log(date.formatDate(toDate, 'YYYY-MM-DD'))
+
 }
 </script>

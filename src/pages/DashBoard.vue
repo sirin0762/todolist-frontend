@@ -6,7 +6,7 @@
           <font-awesome-icon v-if="i === 0" icon="fa-d fa-cloud" style="color: #61b3e5"></font-awesome-icon>
           <font-awesome-icon v-else-if="i === 1" icon="fa-solid fa-sun" style="color: #ff0000;"></font-awesome-icon>
           <font-awesome-icon v-else-if="i === 2" icon="fa-solid fa-moon" style="color: #ffd43b;"></font-awesome-icon>
-          <div id="todoTimeOfDay" class="q-ml-sm">{{ capitalize(task.todoTimeOfDay.toLowerCase()) }}</div>
+          <div v-cloak id="todoTimeOfDay" class="q-ml-sm" v-text="task.todoTimeOfDay.toLowerCase()"></div>
         </div>
       <NewCardButton :newTodoTimeOfDay="task.todoTimeOfDay"/>
       </div>
@@ -32,7 +32,9 @@ import draggable from "vuedraggable";
 import {capitalize, computed, onMounted, ref, watch} from "vue";
 import axios from "axios";
 import NewCardButton from "../components/todolist/NewCardButton.vue";
+import {useRoute} from "vue-router";
 
+const currentRoute = useRoute();
 const todoListStore = useTodoListStore();
 const {state} = todoListStore;
 let tasks = computed(() => state.todoList);
@@ -41,7 +43,7 @@ onMounted(() => {
   axios
       .get("http://localhost:8080/api/todos", {
         params: {
-          date: "2023-10-29"
+          date: currentRoute.query.date
         }
       })
       .then((res) => {

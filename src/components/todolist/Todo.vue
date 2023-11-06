@@ -60,24 +60,18 @@ const shortenText = (text, maxLength) => {
 }
 
 const updateTodo = async (e) => {
-  console.log(dateRange.value);
-  await setDateRangeInTodo();
-  console.log(todo.value);
   const url = "http://localhost:8080/api/todos/" + todo.value.id;
   const response = axios.put(url, todo.value);
   console.log("# 응답객체: ", response.data);
 }
 
-const setDateRangeInTodo = () => {
-  todo.value.startDate = dateRange.value.from;
-  todo.value.endDate = dateRange.value.to;
-}
-
 const dateRangeStart = (from) => {
-  todo.value.startDate = date.formatDate(from, 'YYYY-MM-DD');
+  const fromDate = new Date(from.year, from.month, from.day);
+  todo.value.startDate = date.formatDate(fromDate, 'YYYY-MM-DD');
 }
 
 const dateRangeEnd = (dateObj) => {
-  todo.value.endDate = date.formatDate(dateObj.to, 'YYYY-MM-DD');
+  const toDate = new Date(dateObj.to.year, dateObj.to.month, dateObj.to.day);
+  todo.value.endDate = date.formatDate(toDate, 'YYYY-MM-DD');
 }
 </script>
