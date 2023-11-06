@@ -1,28 +1,44 @@
 <template>
-  <div class="row">
-    <div v-for="(task, i) in tasks" :key="i" class="col-4 q-pr-xl q-pl-xl">
-      <div class="row justify-between items-center q-mt-xl">
-        <div class="text-h5 text-weight-bold text-lowercase text-capitalize row items-center">
-          <font-awesome-icon v-if="i === 0" icon="fa-d fa-cloud" style="color: #61b3e5"></font-awesome-icon>
-          <font-awesome-icon v-else-if="i === 1" icon="fa-solid fa-sun" style="color: #ff0000;"></font-awesome-icon>
-          <font-awesome-icon v-else-if="i === 2" icon="fa-solid fa-moon" style="color: #ffd43b;"></font-awesome-icon>
-          <div v-cloak id="todoTimeOfDay" class="q-ml-sm" v-text="task.todoTimeOfDay.toLowerCase()"></div>
-        </div>
-      <NewCardButton :newTodoTimeOfDay="task.todoTimeOfDay"/>
-      </div>
-      <draggable
-          :list="task.todoResponses"
-          group="people"
-          :animation="200"
-          item-key="id"
-          @change="moveTimeOfDay"
-      >
-        <template #item="{element}">
-          <Todo :todo="element" @delete-todo="deleteTodo" @duplicate-todo="duplicateTodo"></Todo>
+  <div class="column">
+
+    <div class="row justify-end q-mr-xl" style="{width: 100%}">
+      <q-input rounded outlined dense v-model="targetDay" mask="####-##-##" :input-style="{ width: '84px' }">
+        <template v-slot:prepend>
+          <q-icon name="event" class="cursor-pointer" round color="primary" size="xs">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+              <q-date v-model="targetDay" minimal mask="YYYY-MM-DD" @update:model-value="getTodoList"></q-date>
+            </q-popup-proxy>
+          </q-icon>
         </template>
-      </draggable>
+      </q-input>
+    </div>
+
+    <div class="row">
+      <div v-for="(task, i) in tasks" :key="i" class="col-4 q-pr-xl q-pl-xl">
+        <div class="row justify-between items-center q-mt-md">
+          <div class="text-h5 text-weight-bold text-lowercase text-capitalize row items-center">
+            <font-awesome-icon v-if="i === 0" icon="fa-d fa-cloud" style="color: #61b3e5"></font-awesome-icon>
+            <font-awesome-icon v-else-if="i === 1" icon="fa-solid fa-sun" style="color: #ff0000;"></font-awesome-icon>
+            <font-awesome-icon v-else-if="i === 2" icon="fa-solid fa-moon" style="color: #ffd43b;"></font-awesome-icon>
+            <div v-cloak id="todoTimeOfDay" class="q-ml-sm" v-text="task.todoTimeOfDay.toLowerCase()"></div>
+          </div>
+          <NewCardButton :newTodoTimeOfDay="task.todoTimeOfDay"/>
+        </div>
+        <draggable
+            :list="task.todoResponses"
+            group="people"
+            :animation="200"
+            item-key="id"
+            @change="moveTimeOfDay"
+        >
+          <template #item="{element}">
+            <Todo :todo="element" @delete-todo="deleteTodo" @duplicate-todo="duplicateTodo"></Todo>
+          </template>
+        </draggable>
+      </div>
     </div>
   </div>
+
 </template>
 
 <script setup>
@@ -33,23 +49,29 @@ import {capitalize, computed, onMounted, ref, watch} from "vue";
 import axios from "axios";
 import NewCardButton from "../components/todolist/NewCardButton.vue";
 import {useRoute} from "vue-router";
+import {date} from "quasar";
 
 const currentRoute = useRoute();
 const todoListStore = useTodoListStore();
 const {state} = todoListStore;
 let tasks = computed(() => state.todoList);
+const targetDay = ref(date.formatDate(Date.now(), 'YYYY-MM-DD'));
 
 onMounted(() => {
+  getTodoList();
+});
+
+const getTodoList = () => {
   axios
       .get("http://localhost:8080/api/todos", {
         params: {
-          date: currentRoute.query.date
+          date: targetDay.value
         }
       })
       .then((res) => {
         todoListStore.state.todoList = res.data;
       })
-});
+}
 
 const moveTimeOfDay = (e) => {
   if (!e.added) return;
