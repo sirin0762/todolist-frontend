@@ -1,6 +1,9 @@
 <template>
   <div class="column">
-
+    <q-scroll-area
+        :visible="visible"
+        style="height: 80vh; max-width: 100%;"
+    >
     <div class="row justify-end q-mr-xl" style="{width: 100%}">
       <q-input rounded outlined dense v-model="targetDay" mask="####-##-##" :input-style="{ width: '84px' }">
         <template v-slot:prepend>
@@ -14,7 +17,7 @@
     </div>
 
     <div class="row">
-      <div v-if="isThereAnyTodo" class="fixed-center" style="margin-left: 128px">
+      <div v-if="isThereAnyTodo" class="fixed-center full-width text-center">
         <h5 class="text-grey">There are no todos created. How about making one?</h5>
       </div>
       <div v-for="(task, i) in tasks" :key="i" class="col-4 q-pr-xl q-pl-xl">
@@ -40,6 +43,7 @@
         </draggable>
       </div>
     </div>
+    </q-scroll-area>
   </div>
 
 </template>
@@ -59,6 +63,7 @@ const todoListStore = useTodoListStore();
 const {state} = todoListStore;
 let tasks = computed(() => state.todoList);
 const targetDay = ref(date.formatDate(Date.now(), 'YYYY-MM-DD'));
+const visible = ref(false);
 
 onMounted(() => {
   getTodoList();
