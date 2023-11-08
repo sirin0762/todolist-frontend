@@ -14,6 +14,9 @@
     </div>
 
     <div class="row">
+      <div v-if="isThereAnyTodo" class="fixed-center" style="margin-left: 128px">
+        <h5 class="text-grey">There are no todos created. How about making one?</h5>
+      </div>
       <div v-for="(task, i) in tasks" :key="i" class="col-4 q-pr-xl q-pl-xl">
         <div class="row justify-between items-center q-mt-md">
           <div class="text-h5 text-weight-bold text-lowercase text-capitalize row items-center">
@@ -120,4 +123,8 @@ const duplicateTodo = async (todo) => {
     }
   }
 }
+
+const isThereAnyTodo = computed(() => {
+  return tasks.value.filter(task => task.todoResponses.length === 0).length === 3;
+});
 </script>
