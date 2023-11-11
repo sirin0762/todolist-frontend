@@ -22,7 +22,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faSun, faCloud, faMoon, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faSun, faCloud, faMoon, faPlus, faN } from '@fortawesome/free-solid-svg-icons'
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 const app = createApp(App);
 
@@ -31,6 +32,8 @@ library.add(faSun);
 library.add(faCloud);
 library.add(faMoon);
 library.add(faPlus);
+library.add(faGoogle);
+library.add(faN)
 app.component('font-awesome-icon', FontAwesomeIcon);
 
 // router

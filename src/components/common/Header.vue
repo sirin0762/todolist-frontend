@@ -3,20 +3,45 @@
     <q-toolbar class="bg-grey-3 text-grey-7">
       <q-btn flat @click="toggleDrawer" round dense icon="menu"/>
       <q-toolbar-title class="text-weight-regular text-black">Sirin's Todo</q-toolbar-title>
-      <q-btn outline label="Login" class="text-subtitle2"></q-btn>
+      <q-btn outline label="Login" class="text-subtitle2" @click="card = true"></q-btn>
+
+      <q-dialog v-model="card">
+        <q-card class="q-pa-lg">
+          <q-card-section>
+            <div class="text-black text-h6 text-center text-weight-bold">Sign Up or Log In</div>
+          </q-card-section>
+          <q-separator/>
+          <q-card-section class="q-pt-none q-mt-md column">
+            <q-btn color="deep-orange" class="q-mb-md">
+              <div class="row items-center no-wrap justify-between">
+                <font-awesome-icon icon="fa-brands fa-google" style="color: #ffffff;" class="q-mr-lg"/>
+                <div class="text-center text-capitalize">
+                  Continue with Google
+                </div>
+              </div>
+            </q-btn>
+            <q-btn color="green-7">
+              <div class="row items-center no-wrap">
+                <font-awesome-icon icon="fa-solid fa-n" style="color: #ffffff;" class="q-mr-lg"/>
+                <div class="text-center text-capitalize">
+                  Continue with Naver
+                </div>
+              </div>
+            </q-btn>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </q-toolbar>
   </q-header>
 </template>
 
 <script setup>
 import {useDrawerStore} from "../../stores/drawer.js";
+import {ref} from "vue";
 
 const drawerStore = useDrawerStore();
+const card = ref(false);
 const toggleDrawer = () => {
     drawerStore.drawer = !drawerStore.drawer;
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
