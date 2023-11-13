@@ -71,6 +71,10 @@ onMounted(() => {
 
 const getTodoList = () => {
   axios
+      .create({
+        baseURL: "http://localhost:8080",
+        withCredentials: true
+      })
       .get("http://localhost:8080/api/todos", {
         params: {
           date: targetDay.value
