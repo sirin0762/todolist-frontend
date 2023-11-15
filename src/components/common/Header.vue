@@ -13,14 +13,14 @@
           <q-separator/>
           <q-card-section class="q-pt-none q-mt-md column">
             <q-btn color="deep-orange" class="q-mb-md">
+              <a href="http://localhost:8080/oauth2/authorization/google">
               <div class="row items-center no-wrap justify-between">
-                <a href="http://localhost:8080/oauth2/authorization/google" style="{text-decoration: none}">
-                  <font-awesome-icon icon="fa-brands fa-google" style="color: #ffffff;" class="q-mr-lg"/>
-                  <div class="text-center text-capitalize">
-                    Continue with Google
-                  </div>
-                </a>
+                <font-awesome-icon icon="fa-brands fa-google" style="color: #ffffff;" class="q-mr-lg"/>
+                <div class="text-center text-capitalize">
+                  Continue with Google
+                </div>
               </div>
+              </a>
             </q-btn>
             <q-btn color="green-7">
               <div class="row items-center no-wrap">
@@ -40,10 +40,18 @@
 <script setup>
 import {useDrawerStore} from "../../stores/drawer.js";
 import {ref} from "vue";
+import axios from "axios";
 
 const drawerStore = useDrawerStore();
 const card = ref(false);
 const toggleDrawer = () => {
   drawerStore.drawer = !drawerStore.drawer;
+}
+
+const googleLogin = () => {
+  axios.get("http://localhost:8080/oauth2/authorization/google")
+      .then(response => {
+        console.log(response.data);
+      })
 }
 </script>
