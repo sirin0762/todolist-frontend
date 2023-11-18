@@ -5,17 +5,19 @@
 </template>
 
 <script setup>
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {onMounted} from "vue";
-import axios from "axios";
+import {useUserStore} from "../../stores/user.js";
 
 const route = useRoute();
-const token = route.query.token;
+const router = useRouter();
+const userStore = useUserStore();
 
 onMounted(() => {
-  axios.get("/api/user")
-      .then((res) => {
-        console.log(res.data);
-      })
+  const username = decodeURIComponent(route.query.nickname);
+  const imageUrl = decodeURIComponent(route.query.imageUrl)
+  userStore.login(username, imageUrl);
+
+  router.push("/todos");
 });
 </script>
