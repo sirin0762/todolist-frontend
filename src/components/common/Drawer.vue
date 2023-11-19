@@ -11,10 +11,12 @@
         <div style="height: 45vh" class="q-pa-lg">
           <div class="flex justify-center items-center column">
             <q-avatar size="150px" class="q-mb-lg">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <img v-if="userStore.isLogin" :src="userStore.state.imageUrl">
+              <img v-if="!userStore.isLogin" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png">
             </q-avatar>
-            <div class="text-weight-bold text-h5 q-mb-sm">Sirin</div>
-            <q-btn class="bg-white text-black">Update Profile</q-btn>
+            <div v-if="userStore.isLogin" class="text-weight-bold text-h5 q-mb-sm">{{userStore.state.username}}</div>
+            <q-btn v-if="userStore.isLogin" class="bg-white text-black">Update Profile</q-btn>
+            <q-btn v-if="!userStore.isLogin" class="bg-white text-black">Login</q-btn>
           </div>
         </div>
 
@@ -25,7 +27,7 @@
             </q-item-section>
 
             <q-item-section>
-              Inbox
+              Todos
             </q-item-section>
           </q-item>
 
@@ -35,27 +37,7 @@
             </q-item-section>
 
             <q-item-section>
-              Star
-            </q-item-section>
-          </q-item>
-
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="send"/>
-            </q-item-section>
-
-            <q-item-section>
-              Send
-            </q-item-section>
-          </q-item>
-
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="drafts"/>
-            </q-item-section>
-
-            <q-item-section>
-              Drafts
+              Calendar
             </q-item-section>
           </q-item>
         </q-list>
@@ -68,11 +50,9 @@
 <script setup>
 import {computed} from "vue";
 import {useDrawerStore} from "../../stores/drawer.js";
+import {useUserStore} from "../../stores/user.js";
 
+const userStore = useUserStore();
 const drawerStore = useDrawerStore();
 const drawer = computed(() => drawerStore.drawer);
 </script>
-
-<style lang="scss" scoped>
-
-</style>
