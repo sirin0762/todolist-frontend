@@ -51,7 +51,7 @@ import axios from "axios";
 import {date} from "quasar";
 
 const props = defineProps(['todo']);
-const emit = defineEmits(['delete-todo', 'duplicate-todo']);
+const emit = defineEmits(['update-todo', 'delete-todo', 'duplicate-todo']);
 
 const todo = ref({
   id: props.todo.id,
@@ -73,10 +73,8 @@ const shortenText = (text, maxLength) => {
   return text;
 }
 
-const updateTodo = async (e) => {
-  const url = "http://localhost:8080/api/todos/" + todo.value.id;
-  const response = axios.put(url, todo.value);
-  console.log("# 응답객체: ", response.data);
+const updateTodo = async () => {
+  emit('update-todo', todo.value.id, todo.value);
 }
 
 const deleteTodo = () => {

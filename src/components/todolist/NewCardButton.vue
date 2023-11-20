@@ -58,20 +58,25 @@ const dateRange = ref({from: newTodo.value.startDate, to: newTodo.value.endDate}
 
 const createTodo = async (e) => {
   if (newTodo.value.title === "") return;
-  if (newTodo.value.startDate === "") newTodo.value.startDate = currentRoute.query.date;
+  if (newTodo.value.startDate === "") newTodo.value.startDate = date.formatDate(Date.now(), 'YYYY-MM-DD');
+  console.log(newTodo)
   newTodo.value.todoTimeOfDay = props.newTodoTimeOfDay;
 
   const url = "http://localhost:8080/api/todos"
-  const response = await axios.post(url, newTodo.value);
+  const response = await axios.post(url, newTodo.value, {
+    withCredentials: true
+  });
   newTodo.value.id = response.data;
 
   axios.get("http://localhost:8080/api/todos", {
-        params: {
-          date: currentRoute.query.date
-        }})
-      .then((res) => {
-        todoListStore.state.todoList = res.data;
-      })
+    withCredentials: true,
+    params: {
+      date: newTodo.value.startDate
+    }
+  })
+  .then((res) => {
+    todoListStore.state.todoList = res.data;
+  })
 }
 
 const dateRangeStart = (from) => {

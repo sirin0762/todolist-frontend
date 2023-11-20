@@ -16,9 +16,10 @@
             </q-avatar>
             <div v-if="userStore.isLogin" class="text-weight-bold text-h5 q-mb-sm">{{userStore.state.username}}</div>
             <q-btn v-if="userStore.isLogin" class="bg-white text-black">Update Profile</q-btn>
-            <q-btn v-if="!userStore.isLogin" class="bg-white text-black">Login</q-btn>
+            <q-btn v-if="!userStore.isLogin" class="bg-white text-black" @click="showLoginPopup = true">Login</q-btn>
           </div>
         </div>
+        <LoginPopup :open="showLoginPopup" @hide-popup="hideLoginPopup"/>
 
         <q-list padding>
           <q-item clickable v-ripple>
@@ -48,11 +49,17 @@
 </template>
 
 <script setup>
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import {useDrawerStore} from "../../stores/drawer.js";
 import {useUserStore} from "../../stores/user.js";
+import LoginPopup from "./LoginPopup.vue";
 
 const userStore = useUserStore();
 const drawerStore = useDrawerStore();
 const drawer = computed(() => drawerStore.drawer);
+const showLoginPopup = ref(false);
+
+const hideLoginPopup = () => {
+  showLoginPopup.value = false;
+}
 </script>
