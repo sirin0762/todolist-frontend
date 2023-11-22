@@ -37,14 +37,13 @@ library.add(faN)
 app.component('font-awesome-icon', FontAwesomeIcon);
 
 // router
-
 app.use(router);
-// pinia
 
+// pinia
 app.use(createPinia());
+
 // quasar
 app.use(Quasar,{
-
     plugins: {}
 });
 app.mount('#q-app');
