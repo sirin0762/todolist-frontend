@@ -1,9 +1,11 @@
 import {createRouter, createWebHistory} from "vue-router";
-import DashBoard from "../pages/DashBoard.vue";
 import Redirect from "../components/common/Redirect.vue";
+import TodoList from "../pages/TodoList.vue";
+import Calendar from "../pages/Calendar.vue";
 
 const routes = [
-    { path: '/todos', component: DashBoard},
+    { path: '/todos', component: TodoList},
+    { path: '/calendar', component: Calendar},
     { path: '/auth/redirect', component: Redirect}
 ]
 

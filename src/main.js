@@ -46,4 +46,5 @@ app.use(createPinia());
 app.use(Quasar,{
     plugins: {}
 });
+
 app.mount('#q-app');

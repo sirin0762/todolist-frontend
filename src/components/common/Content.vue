@@ -10,6 +10,6 @@
 
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+@import "qalendar/dist/style.css";
 </style>

@@ -16,7 +16,7 @@
         </q-input>
       </div>
 
-      <div v-if="!userStore.isLogin" class="fixed-center full-width text-center">
+      <div v-if="!userStore.isLogin" class="absolute-center full-width text-center">
         <h5 class="text-grey">Welcome to our todo website, Let's login and make todos</h5>
       </div>
 

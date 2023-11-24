@@ -12,9 +12,10 @@
           <div class="flex justify-center items-center column">
             <q-avatar size="150px" class="q-mb-lg">
               <img v-if="userStore.isLogin" :src="userStore.state.imageUrl">
-              <img v-if="!userStore.isLogin" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png">
+              <img v-if="!userStore.isLogin"
+                   src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png">
             </q-avatar>
-            <div v-if="userStore.isLogin" class="text-weight-bold text-h5 q-mb-sm">{{userStore.state.username}}</div>
+            <div v-if="userStore.isLogin" class="text-weight-bold text-h5 q-mb-sm">{{ userStore.state.username }}</div>
             <q-btn v-if="userStore.isLogin" class="bg-white text-black">Update Profile</q-btn>
             <q-btn v-if="!userStore.isLogin" class="bg-white text-black" @click="showLoginPopup = true">Login</q-btn>
           </div>
@@ -22,25 +23,31 @@
         <LoginPopup :open="showLoginPopup" @hide-popup="hideLoginPopup"/>
 
         <q-list padding>
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="inbox"/>
-            </q-item-section>
+          <router-link to="/todos">
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="inbox"/>
+              </q-item-section>
 
-            <q-item-section>
-              Todos
-            </q-item-section>
-          </q-item>
+              <q-item-section>
+                Todos
+              </q-item-section>
+            </q-item>
+          </router-link>
 
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="star"/>
-            </q-item-section>
+          <router-link to="/calendar">
+            <q-item clickable v-ripple>
 
-            <q-item-section>
-              Calendar
-            </q-item-section>
-          </q-item>
+              <q-item-section avatar>
+                <q-icon name="star"/>
+              </q-item-section>
+
+              <q-item-section>
+                Calendar
+              </q-item-section>
+            </q-item>
+          </router-link>
+
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -63,3 +70,10 @@ const hideLoginPopup = () => {
   showLoginPopup.value = false;
 }
 </script>
+
+<style scoped>
+a {
+  text-decoration: none;
+  color: white;
+}
+</style>
