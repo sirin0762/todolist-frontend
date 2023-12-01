@@ -7,6 +7,7 @@
         v-if="userStore.isLogin"
         :events="events"
         :config="config"
+        @updated-period="updatePeriod"
     />
   </div>
 
@@ -14,41 +15,31 @@
 
 <script setup>
 import {Qalendar} from "qalendar";
-import {reactive} from "vue";
+import {onBeforeMount, reactive} from "vue";
 import {useUserStore} from "../stores/user.js";
+import axios from "axios";
+import {date} from "quasar";
 
 const userStore = useUserStore();
 
-const events = reactive([
-  {
-    title: "Advanced algebra",
-    time: {start: "2023-11-16", end: "2023-11-16"},
-    colorScheme: "morning",
-    isEditable: true,
-    id: "753944708f02",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores assumenda corporis doloremque et expedita molestias necessitatibus quam quas temporibus veritatis. Deserunt excepturi illum nobis perferendis praesentium repudiandae saepe sapiente voluptatem!"
-  },
-  {
-    title: "Advanced algebra",
-    time: {start: "2023-11-16", end: "2023-11-16"},
-    color: "yellow",
-    colorScheme: "afternoon",
-    isEditable: true,
-    id: "753944708f0f",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores assumenda corporis doloremque et expedita molestias necessitatibus quam quas temporibus veritatis. Deserunt excepturi illum nobis perferendis praesentium repudiandae saepe sapiente voluptatem!"
-  },
-  {
-    title: "Advanced algebra",
-    with: "Chandler Bing",
-    time: {start: "2023-11-16", end: "2023-11-17"},
-    color: "yellow",
-    colorScheme: "evening",
-    isEditable: true,
-    id: "753944708f0f",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores assumenda corporis doloremque et expedita molestias necessitatibus quam quas temporibus veritatis. Deserunt excepturi illum nobis perferendis praesentium repudiandae saepe sapiente voluptatem!"
-  },
+let events = [];
 
-]);
+onBeforeMount(() => {
+  const currentDate = new Date();
+  const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+  axios.get("http://localhost:8080/api/calendar", {
+    params: {
+      startDate: date.formatDate(firstDayOfMonth, 'YYYY-MM-DD'),
+      endDate: date.formatDate(lastDayOfMonth, 'YYYY-MM-DD')
+    },
+    withCredentials: true
+  }).then((res) => {
+    console.log(res.data)
+    events = convertCalendarFormat(res.data);
+  })
+});
+
 
 const config = reactive({
   style: {
@@ -69,8 +60,42 @@ const config = reactive({
     }
   },
   defaultMode: 'month',
-  disableModes: ["week", "day"]
-})
+  disableModes: ["week", "day"],
+});
+
+const updatePeriod = (e) => {
+  axios.get("http://localhost:8080/api/calendar", {
+    params: {
+      startDate: date.formatDate(e.start, 'YYYY-MM-DD'),
+      endDate: date.formatDate(e.end, 'YYYY-MM-DD')
+    },
+    withCredentials: true
+  }).then((res) => {
+    events = convertCalendarFormat(res.data);
+    console.log(events);
+  })
+}
+
+const convertCalendarFormat = (todos) => {
+  const result = [];
+  for (let i = 0; i < todos.length; i++) {
+    const obj = {
+      id: todos[i].id,
+      with: "bang",
+      title: todos[i].title,
+      description: todos[i].desc,
+      time: {
+        start: todos[i].startDate,
+        end: todos[i].endDate
+      },
+      colorScheme: todos[i].todoTimeOfDay.toLowerCase(),
+      isEditable: false,
+    }
+    result.push(obj);
+  }
+  return result;
+}
+
 </script>
 
 <style>
