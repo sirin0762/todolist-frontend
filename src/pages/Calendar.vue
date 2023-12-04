@@ -5,24 +5,27 @@
     </div>
     <Qalendar
         v-if="userStore.isLogin"
-        :events="events"
+        :events="events.todos"
         :config="config"
         @updated-period="updatePeriod"
-    />
+    >
+    </Qalendar>
   </div>
 
 </template>
 
 <script setup>
 import {Qalendar} from "qalendar";
-import {onBeforeMount, reactive} from "vue";
+import {onBeforeMount, reactive, ref} from "vue";
 import {useUserStore} from "../stores/user.js";
 import axios from "axios";
 import {date} from "quasar";
 
 const userStore = useUserStore();
 
-let events = [];
+const events = reactive({
+  todos: []
+});
 
 onBeforeMount(() => {
   const currentDate = new Date();
@@ -35,8 +38,7 @@ onBeforeMount(() => {
     },
     withCredentials: true
   }).then((res) => {
-    console.log(res.data)
-    events = convertCalendarFormat(res.data);
+    events.todos = convertCalendarFormat(res.data);
   })
 });
 
@@ -71,8 +73,7 @@ const updatePeriod = (e) => {
     },
     withCredentials: true
   }).then((res) => {
-    events = convertCalendarFormat(res.data);
-    console.log(events);
+    events.todos = convertCalendarFormat(res.data);
   })
 }
 
@@ -81,7 +82,6 @@ const convertCalendarFormat = (todos) => {
   for (let i = 0; i < todos.length; i++) {
     const obj = {
       id: todos[i].id,
-      with: "bang",
       title: todos[i].title,
       description: todos[i].desc,
       time: {
