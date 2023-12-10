@@ -10,8 +10,9 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes: routes
+    history: createWebHistory(process.env.VITE_BASE_URL),
+    routes: routes,
+    base: import.meta.env.VITE_BASE_URL
 });
 
 export default router;

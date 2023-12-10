@@ -36,7 +36,7 @@ import {computed, ref} from "vue";
 
 const props = defineProps(['open']);
 const emit = defineEmits(['hide-popup']);
-const redirectUri = import.meta.env.VITE_BASE_URL + '/oauth2/authorization/google';
+const redirectUri = import.meta.env.VITE_SERVER_BASE_URL + '/oauth2/authorization/google';
 const open = computed({
   get() {
     return props.open;
