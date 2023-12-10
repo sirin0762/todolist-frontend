@@ -8,7 +8,7 @@
         <q-separator/>
         <q-card-section class="q-pt-none q-mt-md column">
           <q-btn color="deep-orange" class="q-mb-md">
-            <a href="http://localhost:8080/oauth2/authorization/google">
+            <a :href="redirectUri">
               <div class="row items-center no-wrap justify-between">
                 <font-awesome-icon icon="fa-brands fa-google" style="color: #ffffff;" class="q-mr-lg"/>
                 <div class="text-center text-capitalize">
@@ -36,6 +36,7 @@ import {computed, ref} from "vue";
 
 const props = defineProps(['open']);
 const emit = defineEmits(['hide-popup']);
+const redirectUri = import.meta.env.VITE_BASE_URL + '/oauth2/authorization/google';
 const open = computed({
   get() {
     return props.open;

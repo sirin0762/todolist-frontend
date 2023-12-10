@@ -79,10 +79,11 @@ onMounted(() => {
 
 const getTodoList = () => {
   axios
-      .get("/api/todos", {
+      .get(import.meta.env.VITE_BASE_URL + "/api/todos", {
         params: {
           date: targetDay.value
-        }
+        },
+        withCredentials: true
       })
       .then((res) => {
         todoListStore.state.todoList = res.data;
