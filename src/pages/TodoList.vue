@@ -82,8 +82,7 @@ const getTodoList = () => {
       .get("/api/todos", {
         params: {
           date: targetDay.value
-        },
-        withCredentials: true
+        }
       })
       .then((res) => {
         todoListStore.state.todoList = res.data;
