@@ -62,7 +62,7 @@ import NewCardButton from "../components/todolist/NewCardButton.vue";
 import {useRoute} from "vue-router";
 import {date} from "quasar";
 import {useUserStore} from "../stores/user.js";
-import axios from "../axios/axios.js";
+import globalAxios from "../axios/axios.js";
 
 const currentRoute = useRoute();
 const todoListStore = useTodoListStore();
@@ -78,7 +78,7 @@ onMounted(() => {
 });
 
 const getTodoList = () => {
-  axios
+  globalAxios
       .get("/api/todos", {
         params: {
           date: targetDay.value
