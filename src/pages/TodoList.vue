@@ -58,11 +58,11 @@ import {useTodoListStore} from "../stores/todoList.js";
 import Todo from "../components/todolist/Todo.vue";
 import draggable from "vuedraggable";
 import {capitalize, computed, onMounted, ref, watch} from "vue";
-import axios from "axios";
 import NewCardButton from "../components/todolist/NewCardButton.vue";
 import {useRoute} from "vue-router";
 import {date} from "quasar";
 import {useUserStore} from "../stores/user.js";
+import axios from "../axios/axios.js";
 
 const currentRoute = useRoute();
 const todoListStore = useTodoListStore();
@@ -79,7 +79,7 @@ onMounted(() => {
 
 const getTodoList = () => {
   axios
-      .get(import.meta.env.VITE_SERVER_BASE_URL + "/api/todos", {
+      .get("/api/todos", {
         params: {
           date: targetDay.value
         },
