@@ -42,7 +42,7 @@ jobs:
       - run: npm run build
       - name: set environment variables
         env:
-          VITE_BASE_URL: ${{ secret.VITE_BASE_URL }}
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
           VITE_SERVER_BASE_URL: ${{ secrets.VITE_SERVER_BASE_URL }}
         run: |
           echo "VITE_BASE_URL=${VITE_BASE_URL}" >> .env
