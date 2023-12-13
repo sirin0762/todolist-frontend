@@ -40,8 +40,14 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
       - run: npm run build
+      - name: set environment variables
         env:
-          CI: false
+          VITE_BASE_URL: ${{ secret.VITE_BASE_URL }}
+          VITE_SERVER_BASE_URL: ${{ secrets.VITE_SERVER_BASE_URL }}
+        run: |
+          echo "VITE_BASE_URL=${VITE_BASE_URL}" >> .env
+          echo "VITE_SERVER_BASE_URL=${VITE_SERVER_BASE_URL}" >> .env
+        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
