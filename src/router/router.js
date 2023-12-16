@@ -4,14 +4,15 @@ import TodoList from "../pages/TodoList.vue";
 import Calendar from "../pages/Calendar.vue";
 
 const routes = [
-    { path: '/todolist-frontend/todos', component: TodoList},
-    { path: '/todolist-frontend/calendar', component: Calendar},
-    { path: '/todolist-frontend/auth/redirect', component: Redirect}
+    { path: '/todos', component: TodoList},
+    { path: '/calendar', component: Calendar},
+    { path: '/auth/redirect', component: Redirect}
 ]
 
 const router = createRouter({
     history: createWebHistory(),
-    routes: routes
+    routes: routes,
+    base: import.meta.env.VITE_BASE_URL
 });
 
 export default router;
