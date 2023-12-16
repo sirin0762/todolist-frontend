@@ -39,13 +39,11 @@ jobs:
           # cache: 'npm'
 
       - run: npm ci --legacy-peer-deps
-      - name: set environment variables
+      - name: create dotenv
         run: |
-          echo "VITE_BASE_URL=$VITE_BASE_URL"
-          echo "VITE_SERVER_BASE_URL=$VITE_SERVER_BASE_URL"
-        env:
-          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
-          VITE_SERVER_BASE_URL: ${{ vars.VITE_SERVER_BASE_URL }}
+           touch .env
+           echo "VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}" >> .env
+           echo "VITE_SERVER_BASE_URL=${{ secrets.VITE_SERVER_BASE_URL }}" >> .env
 
       - run: npm run build
       - name: Upload artifact
