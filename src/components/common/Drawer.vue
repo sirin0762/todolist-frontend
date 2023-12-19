@@ -23,7 +23,7 @@
         <LoginPopup :open="showLoginPopup" @hide-popup="hideLoginPopup"/>
 
         <q-list padding>
-          <router-link to="/todolist-frontend/todos">
+          <router-link to="/todos">
             <q-item clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="inbox"/>
@@ -35,7 +35,7 @@
             </q-item>
           </router-link>
 
-          <router-link to="/todolist-frontend/calendar">
+          <router-link to="/calendar">
             <q-item clickable v-ripple>
 
               <q-item-section avatar>

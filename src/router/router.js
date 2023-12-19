@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory} from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import Redirect from "../components/common/Redirect.vue";
 import TodoList from "../pages/TodoList.vue";
 import Calendar from "../pages/Calendar.vue";
@@ -10,9 +10,8 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes: routes,
-    base: import.meta.env.VITE_BASE_URL
 });
 
 export default router;
