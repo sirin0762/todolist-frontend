@@ -6,12 +6,12 @@ dotenv.config()
 
 export default defineConfig({
     plugins: [vue()],
-    server: {
-        proxy: {
-            "/api": {
-                target: process.env.VITE_SERVER_BASE_URL,
-                changeOrigin: true,
-            }
-        }
-    }
+    // server: {
+    //     proxy: {
+    //         "/api": {
+    //             target: process.env.VITE_SERVER_BASE_URL,
+    //             changeOrigin: true,
+    //         }
+    //     }
+    // }
 })
