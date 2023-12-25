@@ -74,20 +74,24 @@ const createTodo = async (e) => {
   .then((res) => {
     todoListStore.state.todoList = res.data;
   })
+  newTodo.value = {
+    id: "",
+    title: "",
+    desc: "",
+    todoTimeOfDay: "",
+    done: false,
+    startDate: "",
+    endDate: ""
+  }
 }
 
 const dateRangeStart = (from) => {
   const fromDate = new Date(from.year, from.month - 1, from.day);
   newTodo.value.startDate = date.formatDate(fromDate, 'YYYY-MM-DD');
-  console.log(from)
-  console.log(date.formatDate(fromDate, 'YYYY-MM-DD'))
 }
 
 const dateRangeEnd = (dateObj) => {
   const toDate = new Date(dateObj.to.year, dateObj.to.month - 1, dateObj.to.day);
   newTodo.value.endDate = date.formatDate(toDate, 'YYYY-MM-DD');
-  console.log(dateObj)
-  console.log(date.formatDate(toDate, 'YYYY-MM-DD'))
-
 }
 </script>

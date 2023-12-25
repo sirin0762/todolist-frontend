@@ -27,8 +27,6 @@ export const useUserStore = defineStore("userStore", () => {
     };
 
     const isLogin = computed(() => {
-        console.log(state.username);
-        console.log("hi");
         return state.username !== "";
     });
 
