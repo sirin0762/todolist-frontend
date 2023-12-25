@@ -63,7 +63,6 @@ import {useRoute} from "vue-router";
 import {date} from "quasar";
 import {useUserStore} from "../stores/user.js";
 import globalAxios from "../axios/axios.js";
-import axios from "axios";
 
 const currentRoute = useRoute();
 const todoListStore = useTodoListStore();
@@ -83,11 +82,13 @@ const getTodoList = () => {
       .get("/api/todos", {
         params: {
           date: targetDay.value
-        },
-        withCredentials: true
+        }
       })
       .then((res) => {
         todoListStore.state.todoList = res.data;
+      })
+      .catch((e) => {
+        console.log(e);
       })
 }
 
@@ -103,8 +104,8 @@ const moveTimeOfDay = (e) => {
       }
     }
   }
-  const url = "http://localhost:8080/api/todos/" + targetElement.id;
-  const response = axios.put(url, targetElement, {withCredentials: true});
+  const url = "/api/todos/" + targetElement.id;
+  const response = globalAxios.put(url, targetElement);
   console.log("# 응답객체: ", response.data);
 }
 
@@ -117,8 +118,8 @@ const updateTodo = (id, todo) => {
     }
   }
 
-  const url = "http://localhost:8080/api/todos/" + todo.id;
-  const response = axios.put(url, todo, {withCredentials: true});
+  const url = "/api/todos/" + todo.id;
+  const response = globalAxios.put(url, todo);
   console.log("# 응답객체: ", response.data);
 }
 
@@ -131,15 +132,15 @@ const deleteTodo = (targetId) => {
     }
   }
 
-  const url = "http://localhost:8080/api/todos/" + targetId;
-  const response = axios.delete(url, {withCredentials: true});
+  const url = "/api/todos/" + targetId;
+  const response = globalAxios.delete(url);
   console.log("# 응답객체: ", response.data);
 }
 
 const duplicateTodo = async (todo) => {
   const duplicatedTodo = {...todo};
-  const url = "http://localhost:8080/api/todos"
-  const response = await axios.post(url, duplicatedTodo, {withCredentials: true});
+  const url = "/api/todos"
+  const response = await globalAxios.post(url, duplicatedTodo);
   duplicatedTodo.id = response.data;
 
   for (let i = 0; i < state.todoList.length; i++) {

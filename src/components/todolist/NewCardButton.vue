@@ -35,9 +35,9 @@
 <script setup>
 import {ref, watch} from "vue";
 import {useTodoListStore} from "../../stores/todoList.js";
-import axios from "axios";
 import {useRoute} from "vue-router";
 import {date} from "quasar";
+import globalAxios from "../../axios/axios.js";
 
 const currentRoute = useRoute();
 const props = defineProps(['newTodoTimeOfDay']);
@@ -62,14 +62,11 @@ const createTodo = async (e) => {
   if (newTodo.value.endDate === "") newTodo.value.endDate = newTodo.value.startDate;
   newTodo.value.todoTimeOfDay = props.newTodoTimeOfDay;
 
-  const url = "http://localhost:8080/api/todos"
-  const response = await axios.post(url, newTodo.value, {
-    withCredentials: true
-  });
+  const url = "/api/todos"
+  const response = await globalAxios.post(url, newTodo.value);
   newTodo.value.id = response.data;
 
-  axios.get("http://localhost:8080/api/todos", {
-    withCredentials: true,
+  globalAxios.get("/api/todos", {
     params: {
       date: newTodo.value.startDate
     }

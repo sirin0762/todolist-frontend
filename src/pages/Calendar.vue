@@ -20,6 +20,7 @@ import {onBeforeMount, reactive, ref} from "vue";
 import {useUserStore} from "../stores/user.js";
 import axios from "axios";
 import {date} from "quasar";
+import globalAxios from "../axios/axios.js";
 
 const userStore = useUserStore();
 
@@ -31,12 +32,11 @@ onBeforeMount(() => {
   const currentDate = new Date();
   const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
   const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-  axios.get("http://localhost:8080/api/calendar", {
+  globalAxios.get("/api/calendar", {
     params: {
       startDate: date.formatDate(firstDayOfMonth, 'YYYY-MM-DD'),
       endDate: date.formatDate(lastDayOfMonth, 'YYYY-MM-DD')
-    },
-    withCredentials: true
+    }
   }).then((res) => {
     events.todos = convertCalendarFormat(res.data);
   })
@@ -66,12 +66,11 @@ const config = reactive({
 });
 
 const updatePeriod = (e) => {
-  axios.get("http://localhost:8080/api/calendar", {
+  globalAxios.get("/api/calendar", {
     params: {
       startDate: date.formatDate(e.start, 'YYYY-MM-DD'),
       endDate: date.formatDate(e.end, 'YYYY-MM-DD')
-    },
-    withCredentials: true
+    }
   }).then((res) => {
     events.todos = convertCalendarFormat(res.data);
   })

@@ -47,7 +47,6 @@
 
 <script setup>
 import {ref} from "vue";
-import axios from "axios";
 import {date} from "quasar";
 
 const props = defineProps(['todo']);
