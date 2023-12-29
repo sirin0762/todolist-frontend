@@ -40,7 +40,7 @@ import {date} from "quasar";
 import globalAxios from "../../axios/axios.js";
 
 const currentRoute = useRoute();
-const props = defineProps(['newTodoTimeOfDay']);
+const props = defineProps(['newTodoTimeOfDay', 'defaultDay']);
 const todoListStore = useTodoListStore();
 const newCardEditPopup = ref(false);
 const {state} = todoListStore;
@@ -58,7 +58,7 @@ const dateRange = ref({from: newTodo.value.startDate, to: newTodo.value.endDate}
 
 const createTodo = async (e) => {
   if (newTodo.value.title === "") return;
-  if (newTodo.value.startDate === "") newTodo.value.startDate = date.formatDate(Date.now(), 'YYYY-MM-DD');
+  if (newTodo.value.startDate === "") newTodo.value.startDate = props.defaultDay;
   if (newTodo.value.endDate === "") newTodo.value.endDate = newTodo.value.startDate;
   newTodo.value.todoTimeOfDay = props.newTodoTimeOfDay;
 

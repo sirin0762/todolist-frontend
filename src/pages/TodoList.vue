@@ -33,7 +33,7 @@
                                  style="color: #ffd43b;"></font-awesome-icon>
               <div v-cloak id="todoTimeOfDay" class="q-ml-sm" v-text="task.todoTimeOfDay.toLowerCase()"></div>
             </div>
-            <NewCardButton :newTodoTimeOfDay="task.todoTimeOfDay"/>
+            <NewCardButton :newTodoTimeOfDay="task.todoTimeOfDay" :defaultDay="targetDay"/>
           </div>
           <draggable
               :list="task.todoResponses"
