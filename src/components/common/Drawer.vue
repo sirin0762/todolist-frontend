@@ -4,12 +4,13 @@
         v-model="drawer"
         show-if-above
         :width="256"
-        :breakpoint="400"
-        class="bg-indigo text-white"
+        :breakpoint="1"
+        :mini="miniDrawer"
+        class="bg-indigo text-white z-top"
     >
       <q-scroll-area class="fit">
         <div style="height: 45vh" class="q-pa-lg">
-          <div class="flex justify-center items-center column">
+          <div class="flex justify-center items-center column q-mini-drawer-hide">
             <q-avatar size="150px" class="q-mb-lg">
               <img v-if="userStore.isLogin" :src="userStore.state.imageUrl">
               <img v-if="!userStore.isLogin"
@@ -26,10 +27,10 @@
           <router-link to="/todos">
             <q-item clickable v-ripple>
               <q-item-section avatar>
-                <q-icon name="inbox"/>
+                <q-icon name="add_task"/>
               </q-item-section>
 
-              <q-item-section>
+              <q-item-section class="q-mini-drawer-hide">
                 Todos
               </q-item-section>
             </q-item>
@@ -39,10 +40,10 @@
             <q-item clickable v-ripple>
 
               <q-item-section avatar>
-                <q-icon name="star"/>
+                <q-icon name="calendar_month"/>
               </q-item-section>
 
-              <q-item-section>
+              <q-item-section class="q-mini-drawer-hide">
                 Calendar
               </q-item-section>
             </q-item>
@@ -56,15 +57,21 @@
 </template>
 
 <script setup>
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useDrawerStore} from "../../stores/drawer.js";
 import {useUserStore} from "../../stores/user.js";
 import LoginPopup from "./LoginPopup.vue";
+import {Platform} from "quasar";
 
 const userStore = useUserStore();
 const drawerStore = useDrawerStore();
 const drawer = computed(() => drawerStore.drawer);
 const showLoginPopup = ref(false);
+const miniDrawer = ref(false);
+
+onMounted(() => {
+  miniDrawer.value = Platform.is.mobile;
+})
 
 const hideLoginPopup = () => {
   showLoginPopup.value = false;

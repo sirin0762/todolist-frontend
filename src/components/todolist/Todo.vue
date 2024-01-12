@@ -48,6 +48,7 @@
 <script setup>
 import {ref} from "vue";
 import {date} from "quasar";
+import {Platform} from "quasar";
 
 const props = defineProps(['todo']);
 const emit = defineEmits(['update-todo', 'delete-todo', 'duplicate-todo']);

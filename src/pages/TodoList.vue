@@ -16,15 +16,15 @@
         </q-input>
       </div>
 
-      <div v-if="!userStore.isLogin" class="absolute-center full-width text-center">
+      <div v-if="!userStore.isLogin && Platform.is.desktop" class="absolute-center full-width text-center">
         <h5 class="text-grey">Welcome to our todo website, Let's login and make todos</h5>
       </div>
 
       <div v-else class="row">
-        <div v-if="isThereAnyTodo" class="fixed-center full-width text-center">
+        <div v-if="isThereAnyTodo && Platform.is.desktop" class="fixed-center full-width text-center">
           <h5 class="text-grey">There are no todos created. How about making one?</h5>
         </div>
-        <div v-for="(task, i) in tasks" :key="i" class="col-4 q-pr-xl q-pl-xl">
+        <div v-for="(task, i) in tasks" :key="i" class="q-pr-xl q-pl-xl" :class="Platform.is.desktop ? 'col-4' : 'col-12 col-md-4'">
           <div class="row justify-between items-center q-mt-md">
             <div class="text-h5 text-weight-bold text-lowercase text-capitalize row items-center">
               <font-awesome-icon v-if="i === 0" icon="fa-d fa-cloud" style="color: #61b3e5"></font-awesome-icon>
@@ -63,6 +63,7 @@ import {useRoute} from "vue-router";
 import {date} from "quasar";
 import {useUserStore} from "../stores/user.js";
 import globalAxios from "../axios/axios.js";
+import {Platform} from "quasar";
 
 const currentRoute = useRoute();
 const todoListStore = useTodoListStore();

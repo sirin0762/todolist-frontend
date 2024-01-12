@@ -47,3 +47,9 @@ const open = computed({
 })
 </script>
 
+<style scoped>
+a:visited {
+  color: inherit; /* 현재 색상 유지 */
+}
+</style>
+
