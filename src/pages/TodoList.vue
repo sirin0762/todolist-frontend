@@ -41,6 +41,7 @@
               :animation="200"
               item-key="id"
               @change="moveTimeOfDay"
+              :delay="100"
           >
             <template #item="{element}">
               <Todo :todo="element" @delete-todo="deleteTodo" @duplicate-todo="duplicateTodo" @update-todo="updateTodo"></Todo>
