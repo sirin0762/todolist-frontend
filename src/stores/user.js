@@ -1,5 +1,7 @@
 import {defineStore} from "pinia";
 import {computed, reactive} from "vue";
+import {useTodoListStore} from "./todoList.js";
+
 
 export const useUserStore = defineStore("userStore", () => {
     const state = reactive({
@@ -22,6 +24,7 @@ export const useUserStore = defineStore("userStore", () => {
     const logout = () => {
         state.username = "";
         state.imageurl = "";
+        location.reload();
         sessionStorage.removeItem("user");
         localStorage.removeItem("userInfo");
     };
