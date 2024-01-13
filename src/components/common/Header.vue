@@ -3,8 +3,20 @@
     <q-toolbar class="bg-grey-3 text-grey-7">
       <q-btn flat @click="toggleDrawer" round dense icon="menu"/>
       <q-toolbar-title class="text-weight-bold text-gray text-subtitle2">Sirin's Todolist</q-toolbar-title>
-      <q-btn v-if="!userStore.isLogin" outline label="Login" class="text-subtitle2" @click="showLoginPopup = true"></q-btn>
-      <q-btn v-else outline label="Logout" class="text-subtitle2" @click="userStore.logout"></q-btn>
+      <q-btn v-if="!userStore.isLogin"
+             label="Login"
+             outline
+             class="text-subtitle2 text-weight-bold"
+             style="text-transform: none;"
+             @click="showLoginPopup = true">
+      </q-btn>
+      <q-btn v-else
+             label="Logout"
+             outline
+             class="text-subtitle2 text-weight-bold"
+             style="text-transform: none;"
+             @click="userStore.logout">
+      </q-btn>
 
       <LoginPopup :open="showLoginPopup" @hide-popup="hideLoginPopup"/>
     </q-toolbar>
