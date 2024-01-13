@@ -16,12 +16,12 @@
         </q-input>
       </div>
 
-      <div v-if="!userStore.isLogin && Platform.is.desktop" class="absolute-center full-width text-center">
+      <div v-if="!userStore.isLogin" class="absolute-center full-width text-center">
         <h5 class="text-grey">Welcome to our todo website, Let's login and make todos</h5>
       </div>
 
       <div v-else class="row">
-        <div v-if="isThereAnyTodo && Platform.is.desktop" class="fixed-center full-width text-center">
+        <div v-if="isThereAnyTodo" class="fixed-center full-width text-center">
           <h5 class="text-grey">There are no todos created. How about making one?</h5>
         </div>
         <div v-for="(task, i) in tasks" :key="i" class="q-pr-xl q-pl-xl" :class="Platform.is.desktop ? 'col-4' : 'col-12 col-md-4'">

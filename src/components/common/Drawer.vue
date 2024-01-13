@@ -17,8 +17,8 @@
                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png">
             </q-avatar>
             <div v-if="userStore.isLogin" class="text-weight-bold text-h5 q-mb-sm">{{ userStore.state.username }}</div>
-            <q-btn v-if="userStore.isLogin" class="bg-white text-black">Update Profile</q-btn>
-            <q-btn v-if="!userStore.isLogin" class="bg-white text-black" @click="showLoginPopup = true">Login</q-btn>
+            <q-btn v-if="userStore.isLogin" class="bg-grey-3 text-grey-8 text-transform-none">Update Profile</q-btn>
+            <q-btn v-if="!userStore.isLogin" class="bg-grey-3 text-grey-8 text-weight-bold text-transform-none" @click="showLoginPopup = true">Login</q-btn>
           </div>
         </div>
         <LoginPopup :open="showLoginPopup" @hide-popup="hideLoginPopup"/>
@@ -82,5 +82,9 @@ const hideLoginPopup = () => {
 a {
   text-decoration: none;
   color: white;
+}
+
+.text-transform-none {
+  text-transform: none;
 }
 </style>

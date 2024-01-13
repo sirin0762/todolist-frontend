@@ -2,7 +2,7 @@
   <q-header class="bg-cyan-8">
     <q-toolbar class="bg-grey-3 text-grey-7">
       <q-btn flat @click="toggleDrawer" round dense icon="menu"/>
-      <q-toolbar-title class="text-weight-regular text-black">Sirin's Todo</q-toolbar-title>
+      <q-toolbar-title class="text-weight-bold text-gray text-subtitle2">Sirin's Todolist</q-toolbar-title>
       <q-btn v-if="!userStore.isLogin" outline label="Login" class="text-subtitle2" @click="showLoginPopup = true"></q-btn>
       <q-btn v-else outline label="Logout" class="text-subtitle2" @click="userStore.logout"></q-btn>
 
